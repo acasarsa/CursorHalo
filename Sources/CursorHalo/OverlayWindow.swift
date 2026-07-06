@@ -27,9 +27,10 @@ final class OverlayWindow: NSWindow {
             .ignoresCycle
         ]
 
-        let content = NSView(frame: screen.frame)
-        content.wantsLayer = true
-        content.layer?.backgroundColor = NSColor.clear.cgColor
-        contentView = content
+        let halo = HaloView(frame: CGRect(origin: .zero, size: screen.frame.size))
+        halo.wantsLayer = true
+        contentView = halo
     }
+
+    var halo: HaloView? { contentView as? HaloView }
 }
