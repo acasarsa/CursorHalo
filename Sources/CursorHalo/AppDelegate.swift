@@ -28,7 +28,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         overlay = window
 
         tracker.onTick = { [weak self] globalPoint in
-            guard let window = self?.overlay, let halo = window.halo else { return }
+            guard let self, let window = self.overlay else { return }
+            if let screen = self.screenContaining(point: globalPoint),
+               screen.frame != window.frame {
+                window.moveToScreen(screen)
+                self.applySettings()
+            }
+            guard let halo = window.halo else { return }
             let local = NSPoint(
                 x: globalPoint.x - window.frame.origin.x,
                 y: globalPoint.y - window.frame.origin.y
@@ -36,6 +42,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             halo.moveRing(to: local)
         }
         tracker.start()
+    }
+
+    private func screenContaining(point: NSPoint) -> NSScreen? {
+        NSScreen.screens.first(where: { NSPointInRect(point, $0.frame) }) ?? NSScreen.main
     }
 
     private func stopOverlay() {

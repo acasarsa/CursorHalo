@@ -32,5 +32,11 @@ final class OverlayWindow: NSWindow {
         contentView = halo
     }
 
+    func moveToScreen(_ screen: NSScreen) {
+        guard frame != screen.frame else { return }
+        setFrame(screen.frame, display: false)
+        contentView?.frame = CGRect(origin: .zero, size: screen.frame.size)
+    }
+
     var halo: HaloView? { contentView as? HaloView }
 }
