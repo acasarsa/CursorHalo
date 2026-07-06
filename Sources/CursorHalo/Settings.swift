@@ -7,12 +7,12 @@ struct HaloPreset {
 
 enum HaloPresets {
     static let all: [HaloPreset] = [
-        .init(name: "Yellow", color: .systemYellow),
-        .init(name: "Red",    color: .systemRed),
-        .init(name: "Green",  color: .systemGreen),
-        .init(name: "Cyan",   color: .systemCyan),
         .init(name: "Magenta", color: .systemPink),
-        .init(name: "White",  color: .white),
+        .init(name: "Orange",  color: .systemOrange),
+        .init(name: "Yellow",  color: .systemYellow),
+        .init(name: "Red",     color: .systemRed),
+        .init(name: "Cyan",    color: .systemCyan),
+        .init(name: "White",   color: .white),
     ]
 }
 
@@ -22,7 +22,6 @@ final class Settings {
     private enum Key {
         static let colorHex = "halo.colorHex"
         static let radius = "halo.radius"
-        static let thickness = "halo.thickness"
         static let opacity = "halo.opacity"
         static let enabled = "halo.enabled"
     }
@@ -35,25 +34,19 @@ final class Settings {
         defaults.register(defaults: [
             Key.colorHex: HaloPresets.all[0].color.hexString,
             Key.radius: 24.0,
-            Key.thickness: 3.0,
-            Key.opacity: 0.85,
+            Key.opacity: 0.55,
             Key.enabled: true,
         ])
     }
 
     var color: NSColor {
-        get { NSColor(hex: defaults.string(forKey: Key.colorHex) ?? "") ?? .systemYellow }
+        get { NSColor(hex: defaults.string(forKey: Key.colorHex) ?? "") ?? .systemPink }
         set { defaults.set(newValue.hexString, forKey: Key.colorHex); onChange?() }
     }
 
     var radius: CGFloat {
         get { CGFloat(defaults.double(forKey: Key.radius)) }
         set { defaults.set(Double(newValue), forKey: Key.radius); onChange?() }
-    }
-
-    var thickness: CGFloat {
-        get { CGFloat(defaults.double(forKey: Key.thickness)) }
-        set { defaults.set(Double(newValue), forKey: Key.thickness); onChange?() }
     }
 
     var opacity: CGFloat {

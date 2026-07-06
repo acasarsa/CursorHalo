@@ -9,7 +9,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var enabledItem: NSMenuItem?
     private var colorMenuItems: [NSMenuItem] = []
     private var radiusItem: NSMenuItem?
-    private var thicknessItem: NSMenuItem?
     private var opacityItem: NSMenuItem?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -58,7 +57,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard let halo = overlay?.halo else { return }
         halo.ringColor = settings.color
         halo.ringRadius = settings.radius
-        halo.ringThickness = settings.thickness
         halo.ringOpacity = settings.opacity
     }
 
@@ -109,13 +107,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             value: settings.radius,
             range: 8...80,
             action: #selector(sliderRadiusChanged(_:))
-        )
-        thicknessItem = addSliderRow(
-            to: menu,
-            title: "Thickness",
-            value: settings.thickness,
-            range: 1...12,
-            action: #selector(sliderThicknessChanged(_:))
         )
         opacityItem = addSliderRow(
             to: menu,
@@ -187,10 +178,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func sliderRadiusChanged(_ sender: NSSlider) {
         settings.radius = CGFloat(sender.doubleValue)
-    }
-
-    @objc private func sliderThicknessChanged(_ sender: NSSlider) {
-        settings.thickness = CGFloat(sender.doubleValue)
     }
 
     @objc private func sliderOpacityChanged(_ sender: NSSlider) {
