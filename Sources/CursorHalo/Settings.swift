@@ -7,12 +7,13 @@ struct HaloPreset {
 
 enum HaloPresets {
     static let all: [HaloPreset] = [
-        .init(name: "Magenta", color: .systemPink),
-        .init(name: "Orange",  color: .systemOrange),
-        .init(name: "Yellow",  color: .systemYellow),
-        .init(name: "Red",     color: .systemRed),
-        .init(name: "Cyan",    color: .systemCyan),
-        .init(name: "White",   color: .white),
+        .init(name: "Hot Pink", color: NSColor(hex: "#FF2D95") ?? .systemPink),
+        .init(name: "Magenta",  color: NSColor(hex: "#D81BB5") ?? .systemPink),
+        .init(name: "Orange",   color: .systemOrange),
+        .init(name: "Yellow",   color: .systemYellow),
+        .init(name: "Red",      color: .systemRed),
+        .init(name: "Cyan",     color: .systemCyan),
+        .init(name: "White",    color: .white),
     ]
 }
 
@@ -40,7 +41,7 @@ final class Settings {
     }
 
     var color: NSColor {
-        get { NSColor(hex: defaults.string(forKey: Key.colorHex) ?? "") ?? .systemPink }
+        get { NSColor(hex: defaults.string(forKey: Key.colorHex) ?? "") ?? HaloPresets.all[0].color }
         set { defaults.set(newValue.hexString, forKey: Key.colorHex); onChange?() }
     }
 
